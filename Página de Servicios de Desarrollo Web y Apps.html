@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft Solutions | Desarrollo de Software, Web & Apps Móviles</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #059669 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between custom-scrollbar">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-header transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-code text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-xl tracking-tight text-white flex items-center gap-1">
+                        Code<span class="gradient-text">Craft</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">Software Devs</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#inicio" class="hover:text-indigo-400 transition-colors">Inicio</a>
+                <a href="#portafolio" class="hover:text-indigo-400 transition-colors">Portafolio</a>
+                <a href="#servicios" class="hover:text-indigo-400 transition-colors">Servicios & Paquetes</a>
+                <a href="#demos" class="hover:text-indigo-400 transition-colors">Demos</a>
+                <a href="#testimonios" class="hover:text-indigo-400 transition-colors">Testimonios</a>
+                <a href="#legales" class="hover:text-indigo-400 transition-colors">Políticas</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="#contacto" class="gradient-bg px-5 py-2.5 rounded-xl font-semibold text-sm text-white hover:opacity-95 transition-all shadow-lg shadow-indigo-500/25 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    Cotizar Ahora
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-slate-300 hover:text-white focus:outline-none p-2">
+                <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-900/95 border-b border-slate-800 px-6 py-4 flex flex-col gap-4 text-slate-300">
+            <a href="#inicio" class="mobile-link py-2 hover:text-indigo-400">Inicio</a>
+            <a href="#portafolio" class="mobile-link py-2 hover:text-indigo-400">Portafolio</a>
+            <a href="#servicios" class="mobile-link py-2 hover:text-indigo-400">Servicios & Paquetes</a>
+            <a href="#demos" class="mobile-link py-2 hover:text-indigo-400">Demos Interactivas</a>
+            <a href="#testimonios" class="mobile-link py-2 hover:text-indigo-400">Testimonios</a>
+            <a href="#legales" class="mobile-link py-2 hover:text-indigo-400">Políticas y Soporte</a>
+            <a href="#contacto" class="mobile-link gradient-bg py-3 text-center rounded-xl font-semibold text-white mt-2">
+                Cotizar Proyecto
+            </a>
+        </div>
+    </header>
+
+    <main class="mt-20">
+        <!-- Hero Section -->
+        <section id="inicio" class="relative py-20 lg:py-32 overflow-hidden flex items-center justify-center">
+            <!-- Background Glow FX -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-xs sm:text-sm font-medium text-indigo-300 mb-8 border border-indigo-500/20">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <i class="fa-solid fa-rocket text-indigo-400"></i>
+                    Software High-Performance & Aplicaciones Cloud Integradas
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    Transformamos tus Ideas en <br class="hidden sm:inline" />
+                    <span class="gradient-text">Aplicaciones de Alto Impacto</span>
+                </h1>
+
+                <p class="max-w-3xl mx-auto text-base sm:text-xl text-slate-400 font-normal mb-10 leading-relaxed">
+                    Desarrollo a la medida de **Sistemas de Gestión, Control de Asistencia, Paneles Financieros y Automatizaciones integradas a Telegram**. Código optimizado, seguro y escalable.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#portafolio" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card font-semibold text-white hover:bg-slate-800 border border-slate-700 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-laptop-code text-indigo-400"></i>
+                        Ver Portafolio
+                    </a>
+                    <a href="#contacto" class="w-full sm:w-auto gradient-bg px-8 py-4 rounded-xl font-bold text-white shadow-xl shadow-indigo-500/25 hover:opacity-95 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Solicitar Cotización Gratuita
+                    </a>
+                </div>
+
+                <!-- Technical Badges -->
+                <div class="mt-16 pt-12 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-slate-400 text-sm">
+                    <div class="flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-emerald-400 text-xl"></i>
+                        <span class="text-slate-300 font-medium">HTTPS & SSL Seguro</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-telegram text-sky-400 text-xl"></i>
+                        <span class="text-slate-300 font-medium">Bots de Telegram</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-database text-indigo-400 text-xl"></i>
+                        <span class="text-slate-300 font-medium">BD Local & Cloud</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-mobile-screen-button text-purple-400 text-xl"></i>
+                        <span class="text-slate-300 font-medium">Diseño 100% Adaptable</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portafolio de Proyectos -->
+        <section id="portafolio" class="py-20 bg-slate-900/50 relative border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                        Portafolio de <span class="gradient-text">Proyectos</span>
+                    </h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">
+                        Explora nuestro catálogo visual de sistemas desarrollados a medida para empresas y emprendedores.
+                    </p>
+
+                    <!-- Portfolio Filters -->
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mt-8" id="portfolioFilters">
+                        <button data-filter="todos" class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 text-white transition-all">Todos</button>
+                        <button data-filter="gestion" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition-all">Sistemas de Gestión</button>
+                        <button data-filter="asistencia" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition-all">Control de Asistencia</button>
+                        <button data-filter="financiero" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition-all">Paneles Financieros</button>
+                        <button data-filter="telegram" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition-all">Bots Telegram</button>
+                    </div>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
+                    
+                    <!-- Item 1: Control de Asistencia -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300" data-category="asistencia">
+                        <div class="relative h-48 bg-slate-800 overflow-hidden">
+                            <img src="https://placehold.co/600x400/1e1b4b/818cf8?text=Control+de+Asistencia+QR" alt="Sistema de Asistencia" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-indigo-600/90 text-white text-xs px-3 py-1 rounded-full font-medium backdrop-blur-md">
+                                Control Asistencia
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">AsistTrack Pro</h3>
+                                <p class="text-slate-400 text-sm mb-4">Sistema de marcaje y registro de empleados mediante código QR, geolocalización y reportes en PDF/Excel.</p>
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">QR Scanner</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Base de Datos Local</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Exportación PDF</span>
+                                </div>
+                            </div>
+                            <button onclick="openQuoteModal('Control de Asistencia - AsistTrack Pro')" class="w-full py-2.5 rounded-xl border border-indigo-500/30 text-indigo-300 font-medium hover:bg-indigo-600 hover:text-white transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-xs"></i> Solicitar Demo / Cotizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Panel Financiero -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300" data-category="financiero">
+                        <div class="relative h-48 bg-slate-800 overflow-hidden">
+                            <img src="https://placehold.co/600x400/064e3b/34d399?text=Dashboard+Financiero" alt="Panel Financiero" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-emerald-600/90 text-white text-xs px-3 py-1 rounded-full font-medium backdrop-blur-md">
+                                Panel Financiero
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">FinanStat Dashboard</h3>
+                                <p class="text-slate-400 text-sm mb-4">Panel interactivo para el control de ingresos, egresos, proyecciones de venta y cálculo automático de márgenes.</p>
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Gráficos Chart.js</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Multi-moneda</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Reportes Automáticos</span>
+                                </div>
+                            </div>
+                            <button onclick="openQuoteModal('Panel Financiero - FinanStat')" class="w-full py-2.5 rounded-xl border border-indigo-500/30 text-indigo-300 font-medium hover:bg-indigo-600 hover:text-white transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-xs"></i> Solicitar Demo / Cotizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Sistema de Gestión -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300" data-category="gestion">
+                        <div class="relative h-48 bg-slate-800 overflow-hidden">
+                            <img src="https://placehold.co/600x400/311b92/a5b4fc?text=Sistema+ERP+e+Inventarios" alt="Sistema ERP" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-purple-600/90 text-white text-xs px-3 py-1 rounded-full font-medium backdrop-blur-md">
+                                Sistema de Gestión
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">GestorInv ERP</h3>
+                                <p class="text-slate-400 text-sm mb-4">Gestión completa de stock de almacén, órdenes de compra, clientes y alertas de bajo inventario.</p>
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Control Inventario</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Alertas Telegram</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Multi-usuario</span>
+                                </div>
+                            </div>
+                            <button onclick="openQuoteModal('Sistema ERP - GestorInv')" class="w-full py-2.5 rounded-xl border border-indigo-500/30 text-indigo-300 font-medium hover:bg-indigo-600 hover:text-white transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-xs"></i> Solicitar Demo / Cotizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Item 4: Integration Bot Telegram -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300" data-category="telegram">
+                        <div class="relative h-48 bg-slate-800 overflow-hidden">
+                            <img src="https://placehold.co/600x400/0c4a6e/38bdf8?text=Bot+de+Telegram+Notificaciones" alt="Bot Telegram" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-sky-600/90 text-white text-xs px-3 py-1 rounded-full font-medium backdrop-blur-md">
+                                Bot de Telegram
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">TeleBot Order & Lead</h3>
+                                <p class="text-slate-400 text-sm mb-4">Bot con integración a sitio web que captura pedidos, notifica alertas instantáneas y gestiona consultas frecuentes.</p>
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Telegram API</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Notificación Instantánea</span>
+                                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">Respuestas Automáticas</span>
+                                </div>
+                            </div>
+                            <button onclick="openQuoteModal('Bot Telegram - TeleBot Order')" class="w-full py-2.5 rounded-xl border border-indigo-500/30 text-indigo-300 font-medium hover:bg-indigo-600 hover:text-white transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-xs"></i> Solicitar Demo / Cotizar
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Catálogo de Servicios y Paquetes -->
+        <section id="servicios" class="py-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                        Catálogo de <span class="gradient-text">Servicios y Paquetes</span>
+                    </h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">
+                        Soluciones preconfiguradas con funciones específicas o desarrollo completamente adaptado a tu empresa. Cotiza sin compromiso.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                    
+                    <!-- Paquete 1: Landing Pages / Presencia -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative hover:-translate-y-1 transition-transform">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl mb-6">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Landing & Páginas Institucionales</h3>
+                            <p class="text-slate-400 text-sm mb-6">Ideal para marcas, profesionales y empresas que requieren presencia web moderna, rápida y adaptable.</p>
+                            
+                            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Diseño 100% Responsivo (Móvil y Escritorio)</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Formulario de contacto a correo o WhatsApp</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Optimización SEO Básica y Carga Ultrarrápida</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Instalación SSL/HTTPS y Dominio Profesional</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <button onclick="openQuoteModal('Paquete: Landing Page Institucional')" class="w-full py-3 rounded-xl font-semibold bg-slate-800 hover:bg-slate-700 text-white transition-all text-sm flex items-center justify-center gap-2 border border-slate-700">
+                                Cotizar este Paquete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paquete 2: Apps Web con Telegram / BD Local (Destacado) -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative border-2 border-indigo-500/60 shadow-2xl shadow-indigo-500/10 hover:-translate-y-1 transition-transform">
+                        <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-indigo-500 to-emerald-500 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                            Más Popular
+                        </div>
+                        <div>
+                            <div class="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center text-white text-xl mb-6 shadow-lg shadow-indigo-500/30">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Apps con Bot Telegram / BD Local</h3>
+                            <p class="text-slate-400 text-sm mb-6">Sistemas dinámicos con captura de datos, notificaciones al instante por Telegram y almacenamiento local seguro.</p>
+                            
+                            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Integración con API Telegram Bot Instantánea</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Almacenamiento en BD Local / IndexedDB</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Formularios y Tablas de Gestión Personalizadas</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Soporte offline y persistencia de datos</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <button onclick="openQuoteModal('Paquete: App Web + Integración Telegram')" class="w-full gradient-bg py-3 rounded-xl font-bold text-white transition-all text-sm shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2">
+                                Cotizar este Paquete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paquete 3: Desarrollo a la Medida -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative hover:-translate-y-1 transition-transform">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-6">
+                                <i class="fa-solid fa-gears"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Desarrollo a la Medida</h3>
+                            <p class="text-slate-400 text-sm mb-6">Construcción integral de software corporativo, automatizaciones complejas, plataformas SaaS y paneles a medida.</p>
+                            
+                            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Requerimientos 100% personalizados</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Multi-usuarios con niveles de permisos</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Base de datos en la nube y respaldos</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                    <span>Garantía extendida y código fuente entregado</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <button onclick="openQuoteModal('Desarrollo Personalizado a la Medida')" class="w-full py-3 rounded-xl font-semibold bg-slate-800 hover:bg-slate-700 text-white transition-all text-sm flex items-center justify-center gap-2 border border-slate-700">
+                                Solicitar Cotización
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Demostraciones (Demos) -->
+        <section id="demos" class="py-20 bg-slate-900/50 relative border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                        Prueba Nuestras <span class="gradient-text">Demostraciones Interactivas</span>
+                    </h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">
+                        Prueba de primera mano la interfaz, velocidad y fluidez de nuestros desarrollos antes de tomar una decisión.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Demo Card 1 -->
+                    <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs rounded-full font-medium">Demo Interactiva</span>
+                                <i class="fa-solid fa-laptop-code text-slate-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Demo: Marcaje de Asistencia QR</h3>
+                            <p class="text-slate-400 text-sm mb-6">Prueba el simulador de marcado de asistencia con generación de código QR en tiempo real y registro dinámico.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="showDemoAlert('Demo de Asistencia QR')" class="flex-1 py-3 rounded-xl gradient-bg font-semibold text-white text-sm hover:opacity-95 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play text-xs"></i> Iniciar Demo Interactiva
+                            </button>
+                            <button onclick="openQuoteModal('Interés tras Demo: Asistencia QR')" class="py-3 px-4 rounded-xl glass-card text-slate-300 font-medium text-sm hover:bg-slate-800 transition-all">
+                                Cotizar Similar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Demo Card 2 -->
+                    <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs rounded-full font-medium">Demo Interactiva</span>
+                                <i class="fa-solid fa-chart-line text-slate-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Demo: Panel Financiero y Mapeo</h3>
+                            <p class="text-slate-400 text-sm mb-6">Interactúa con nuestro dashboard financiero simulado, filtra por fechas y genera gráficos con un solo clic.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="showDemoAlert('Panel Financiero')" class="flex-1 py-3 rounded-xl gradient-bg font-semibold text-white text-sm hover:opacity-95 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play text-xs"></i> Iniciar Demo Interactiva
+                            </button>
+                            <button onclick="openQuoteModal('Interés tras Demo: Panel Financiero')" class="py-3 px-4 rounded-xl glass-card text-slate-300 font-medium text-sm hover:bg-slate-800 transition-all">
+                                Cotizar Similar
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios y Casos de Éxito -->
+        <section id="testimonios" class="py-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                        Casos de Éxito y <span class="gradient-text">Testimonios</span>
+                    </h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">
+                        Conoce cómo nuestras herramientas resolvieron problemas operativos reales de nuestros clientes.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm italic mb-6">
+                                "Teníamos constantes desfasajes en las marcaciones de nuestro personal de campo. La app con código QR y notificación por Telegram resolvió nuestro control en menos de una semana."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 border-t border-slate-800 pt-4">
+                            <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white text-sm">
+                                CR
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">Carlos Rodríguez</h4>
+                                <span class="text-slate-400 text-xs">Gerente de Operaciones</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm italic mb-6">
+                                "El sistema financiero personalizado que nos desarrollaron nos permitió automatizar el envío de alertas de pedidos directamente a nuestro grupo de Telegram."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 border-t border-slate-800 pt-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-white text-sm">
+                                MA
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">María Alvarado</h4>
+                                <span class="text-slate-400 text-xs">Directora Financiera</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm italic mb-6">
+                                "Su solución de almacenamiento local nos salvó para operar en zonas donde la conexión a internet es inestable. Súper profesional y con entrega puntual."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 border-t border-slate-800 pt-4">
+                            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center font-bold text-white text-sm">
+                                JG
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">José Gutiérrez</h4>
+                                <span class="text-slate-400 text-xs">Fundador TechRetail</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Aspectos Legales y Operativos -->
+        <section id="legales" class="py-16 bg-slate-900/50 border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+                        Garantías, <span class="gradient-text">Términos y Operativa</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm max-w-xl mx-auto">
+                        Transparencia total en nuestros acuerdos de desarrollo y soporte técnico.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Términos y Condiciones -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <i class="fa-solid fa-file-contract text-indigo-400 text-xl"></i>
+                            <h3 class="text-lg font-bold text-white">Términos y Condiciones de Servicio</h3>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-indigo-400 mt-1 text-xs"></i>
+                                <span><strong>Tiempos de Entrega:</strong> Definidos desde el inicio en la propuesta formal con cronograma claro por fases.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-indigo-400 mt-1 text-xs"></i>
+                                <span><strong>Garantía de Soporte:</strong> Incluida garantía de 60 días para corrección de incidencias sin costo adicional.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-indigo-400 mt-1 text-xs"></i>
+                                <span><strong>Responsabilidad:</strong> Garantizamos la confidencialidad de los datos e infraestructura según normativas.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Políticas de Soporte -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <i class="fa-solid fa-headset text-emerald-400 text-xl"></i>
+                            <h3 class="text-lg font-bold text-white">Políticas de Soporte y Mantenimiento</h3>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-emerald-400 mt-1 text-xs"></i>
+                                <span><strong>Alojamiento & SSL:</strong> Despliegue en servidores seguros HTTPS optimizados para alto rendimiento.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-emerald-400 mt-1 text-xs"></i>
+                                <span><strong>Código Fuente:</strong> Entrega completa del código fuente final según el plan contratado.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-angle-right text-emerald-400 mt-1 text-xs"></i>
+                                <span><strong>Respaldo de Datos:</strong> Mantenimiento preventivo y planes de copias de seguridad continuas.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulario de Requerimientos con Integración a Bot de Telegram -->
+        <section id="contacto" class="py-20 relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-slate-700">
+                    
+                    <!-- Form Header -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl gradient-bg text-white text-2xl mb-4 shadow-lg shadow-indigo-500/30">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white mb-2">Solicita tu Cotización Instantánea</h2>
+                        <p class="text-slate-400 text-sm">
+                            Completa el formulario y tu solicitud se enviará de inmediato a nuestro Bot de Telegram para brindarte respuesta ágil.
+                        </p>
+                    </div>
+
+                    <!-- Notification Alert -->
+                    <div id="formAlert" class="hidden mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3"></div>
+
+                    <!-- Contact Form -->
+                    <form id="telegramReqForm" class="space-y-6">
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Nombre Completo -->
+                            <div>
+                                <label for="fullName" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                    Nombre Completo *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-user text-sm"></i>
+                                    </span>
+                                    <input type="text" id="fullName" required placeholder="Ej: Jean Quero" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Teléfono / WhatsApp -->
+                            <div>
+                                <label for="phone" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                    Número de Teléfono / WhatsApp *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-phone text-sm"></i>
+                                    </span>
+                                    <input type="tel" id="phone" required placeholder="Ej: +58 412 123 4567" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Correo -->
+                            <div>
+                                <label for="email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                    Correo Electrónico
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-envelope text-sm"></i>
+                                    </span>
+                                    <input type="email" id="email" placeholder="ejemplo@empresa.com" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Tipo de Proyecto -->
+                            <div>
+                                <label for="projectType" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                    Tipo de Proyecto *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-cubes text-sm"></i>
+                                    </span>
+                                    <select id="projectType" required class="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-indigo-500 text-sm transition-all appearance-none">
+                                        <option value="Landing Page / Sitio Web">Landing Page / Sitio Web</option>
+                                        <option value="Sistema de Control de Asistencia">Sistema de Control de Asistencia</option>
+                                        <option value="Panel Financiero / Dashboard">Panel Financiero / Dashboard</option>
+                                        <option value="Bot de Telegram + Integración Web">Bot de Telegram + Integración Web</option>
+                                        <option value="Desarrollo Personalizado a Medida">Desarrollo Personalizado a Medida</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalle / Requerimientos -->
+                        <div>
+                            <label for="projectDetails" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                Detalles de tu Proyecto o Necesidad
+                            </label>
+                            <textarea id="projectDetails" rows="4" placeholder="Describe brevemente la solución que necesitas, número de usuarios, características especiales, etc..." class="w-full p-4 bg-slate-900/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all custom-scrollbar"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitBtn" class="w-full gradient-bg py-4 rounded-xl font-bold text-white shadow-xl shadow-indigo-500/25 hover:opacity-95 transition-all text-base flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span id="btnText">Enviar Cotización a Telegram</span>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Telegram Action Button -->
+    <a href="https://t.me/share/url?url=Hola,%20quisiera%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-sky-500 hover:bg-sky-400 text-white p-4 rounded-full shadow-2xl flex items-center justify-center group transition-all duration-300 hover:scale-110">
+        <i class="fa-brands fa-telegram text-2xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 text-sm font-semibold">
+            Contacto Directo
+        </span>
+    </a>
+
+    <!-- Interactive Demo Modal -->
+    <div id="demoModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+        <div class="glass-card bg-slate-900 rounded-2xl max-w-lg w-full p-6 border border-slate-700 relative text-center">
+            <button onclick="closeDemoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="w-16 h-16 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl mx-auto mb-4">
+                <i class="fa-solid fa-desktop"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2" id="demoModalTitle">Demostración Interactiva</h3>
+            <p class="text-slate-300 text-sm mb-6">
+                Accediendo al entorno de pruebas seguro. Puedes interactuar con las tablas, filtros y simulación de datos en tiempo real.
+            </p>
+            <div class="p-4 bg-slate-800/80 rounded-xl text-left font-mono text-xs text-emerald-400 mb-6 border border-slate-700">
+                > Cargando módulo de prueba...<br>
+                > Estado: OK (Entorno SSL Activo)<br>
+                > Datos de prueba generados exitosamente.
+            </div>
+            <button onclick="closeDemoModal()" class="w-full gradient-bg py-2.5 rounded-xl text-white font-semibold text-sm">
+                Entendido / Continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white text-xs">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <span class="font-bold text-slate-200">CodeCraft Solutions</span>
+            </div>
+            <p class="text-slate-500 text-xs text-center md:text-left">
+                &copy; 2026 CodeCraft. Todos los derechos reservados. Desarrollo web seguro HTTPS & Telegram Bot Integrado.
+            </p>
+            <div class="flex items-center gap-4 text-slate-400 text-sm">
+                <a href="#legales" class="hover:text-white transition-colors text-xs">Términos</a>
+                <span>•</span>
+                <a href="#legales" class="hover:text-white transition-colors text-xs">Soporte</a>
+                <span>•</span>
+                <a href="#contacto" class="hover:text-white transition-colors text-xs">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Telegram Configuration Credentials
+        const TELEGRAM_BOT_TOKEN = '8966467299:AAG5YGknvgTvdrWDxwov9atptzPBfIJDzp4';
+        const TELEGRAM_CHAT_ID = '7812442136';
+
+        // DOM Elements
+        const reqForm = document.getElementById('telegramReqForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const formAlert = document.getElementById('formAlert');
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-xmark');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.add('fa-bars');
+                menuIcon.classList.remove('fa-xmark');
+            });
+        });
+
+        // Portfolio Category Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-indigo-600', 'text-white');
+                    b.classList.add('glass-card', 'text-slate-300');
+                });
+
+                btn.classList.add('active', 'bg-indigo-600', 'text-white');
+                btn.classList.remove('glass-card', 'text-slate-300');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    if (filter === 'todos' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Prefill Form when clicking Package / Demo Quote Buttons
+        function openQuoteModal(packageName) {
+            const selectEl = document.getElementById('projectType');
+            const detailsEl = document.getElementById('projectDetails');
+            
+            // Scroll to contact section
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+            
+            // Set details or option
+            detailsEl.value = `Interesado en cotizar: ${packageName}`;
+            detailsEl.focus();
+        }
+
+        // Demo Interactive Modal Handling
+        function showDemoAlert(demoTitle) {
+            document.getElementById('demoModalTitle').innerText = `Demo: ${demoTitle}`;
+            document.getElementById('demoModal').classList.remove('hidden');
+        }
+
+        function closeDemoModal() {
+            document.getElementById('demoModal').classList.add('hidden');
+        }
+
+        // Form Submission to Telegram Bot API
+        reqForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Disable button & show spinner
+            submitBtn.disabled = true;
+            btnText.innerText = 'Enviando a Telegram...';
+            submitBtn.classList.add('opacity-75');
+
+            // Collect Form Values
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim() || 'No especificado';
+            const projectType = document.getElementById('projectType').value;
+            const projectDetails = document.getElementById('projectDetails').value.trim() || 'Sin detalles adicionales';
+
+            // Construct Structured Markdown Message for Telegram
+            const message = `
+🚀 *NUEVA SOLICITUD DE COTIZACIÓN*
+
+👤 *Nombre:* ${fullName}
+📞 *Teléfono/WA:* ${phone}
+✉️ *Correo:* ${email}
+📦 *Proyecto:* ${projectType}
+
+📝 *Detalles:*
+${projectDetails}
+
+📅 *Fecha:* ${new Date().toLocaleString('es-ES')}
+            `;
+
+            try {
+                // Send Message to Telegram API
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    // Show Success Alert
+                    formAlert.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-3";
+                    formAlert.innerHTML = `
+                        <i class="fa-solid fa-circle-check text-xl text-emerald-400"></i>
+                        <div>
+                            <strong>¡Solicitud enviada con éxito!</strong><br>
+                            Recibirás nuestra respuesta directamente por teléfono o Telegram en breve.
+                        </div>
+                    `;
+                    formAlert.classList.remove('hidden');
+                    reqForm.reset();
+                } else {
+                    throw new Error('Error en el envío al Bot');
+                }
+            } catch (error) {
+                console.error('Error enviando datos:', error);
+                // Show Error Alert
+                formAlert.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-3";
+                formAlert.innerHTML = `
+                    <i class="fa-solid fa-circle-xmark text-xl text-rose-400"></i>
+                    <div>
+                        <strong>No se pudo enviar la solicitud.</strong><br>
+                        Por favor inténtalo de nuevo o contáctanos por el botón directo de Telegram.
+                    </div>
+                `;
+                formAlert.classList.remove('hidden');
+            } finally {
+                // Restore Button State
+                submitBtn.disabled = false;
+                btnText.innerText = 'Enviar Cotización a Telegram';
+                submitBtn.classList.remove('opacity-75');
+            }
+        });
+    </script>
+</body>
+</html>
